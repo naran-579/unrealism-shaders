@@ -120,4 +120,12 @@ void main() {
    }
    color.rgb *= lighting;
 
+   if (lightmap.z > 1.5) {
+     vec3 viewDirection = normalize(-feetPlayerPos);
+     vec3 halfVector = normalize(worldLightVector + viewDirection);
+     float sunGlint = pow(max(dot(normal, halfVector), 0.0), 72.0);
+     sunGlint *= max(shadow.r, 0.2) * 0.45;
+     color.rgb += vec3(1.0, 0.9, 0.65) * sunGlint;
+   }
+
 }
