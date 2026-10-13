@@ -10,8 +10,8 @@ uniform float far;
 
 in vec2 texcoord;
 
-const float FOG_NEAR = 0.05;
-const float FOG_FAR = 0.9;
+const float FOG_START_BLOCKS = 25.0 * 16.0;
+const float FOG_MIN_START_FRACTION = 0.88;
 
 #if MC_VERSION >= 260200
 const float skyDepth = 0.0;
@@ -46,7 +46,8 @@ void main() {
   float viewHeight = viewPos.y / max(length(viewPos), 1.0);
   float groundSettling = 1.0 - smoothstep(-0.1, 0.35, viewHeight);
   float settledDist = dist * (1.0 + groundSettling * 0.25);
-  float fogFactor = smoothstep(FOG_NEAR, FOG_FAR, settledDist);
+  float fogStart = min(FOG_START_BLOCKS / far, FOG_MIN_START_FRACTION);
+  float fogFactor = smoothstep(fogStart, 1.0, settledDist);
 
   color.rgb = mix(color.rgb, pow(fogColor, vec3(2.2)), clamp(fogFactor, 0.0, 1.0));
 }
