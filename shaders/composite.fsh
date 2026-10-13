@@ -39,12 +39,6 @@ const vec3 ambientColor = vec3(0.1);
 
 in vec2 texcoord;
 
-#if MC_VERSION >= 260200
-const float skyDepth = 0.0;
-#else
-const float skyDepth = 1.0;
-#endif
-
 /* RENDERTARGETS: 0 */
 layout(location = 0) out vec4 color;
 
@@ -94,7 +88,11 @@ void main() {
    color.rgb = pow(color.rgb, vec3(2.2));
 
    float depth = texture(depthtex0, texcoord).r;
-   if (depth == skyDepth) {
+#if MC_VERSION >= 260200
+	if (depth <= 0.00001) {
+#else
+	if (depth >= 0.99999) {
+#endif
 	   return; // let's skip whats beneath us - the lighting apply logic!
    }
 
