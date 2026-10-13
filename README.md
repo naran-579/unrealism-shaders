@@ -1,4 +1,13 @@
+<img width="510" height="169" alt="file" src="https://github.com/user-attachments/assets/fb11b66a-9be7-4ac2-ac6d-02eda1905b3f" />
+
+
+
+
+
 # Welcome! This is a Minecraft shader!
+
+<img width="1920" height="1080" alt="unrealism banner" src="https://github.com/user-attachments/assets/d7e1d16e-7669-4c34-aadd-1f84a659a171" />
+
 
 ## Why this exists
 I was kinda bored and stumbled across hack club. I found out about something known as "hack craft lumen", and followed that guide, but apparently that project had already ended.  
