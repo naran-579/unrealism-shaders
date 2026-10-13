@@ -88,19 +88,11 @@ void main() {
    color.rgb = pow(color.rgb, vec3(2.2));
 
    float depth = texture(depthtex0, texcoord).r;
-#if MC_VERSION >= 260200
-	if (depth <= 0.00001) {
-#else
 	if (depth >= 0.99999) {
-#endif
 	   return; // let's skip whats beneath us - the lighting apply logic!
    }
 
-#if MC_VERSION >= 260200
-   vec3 ndcPos = vec3(texcoord.xy * 2.0 - 1.0, depth);
-#else
    vec3 ndcPos = vec3(texcoord.xy, depth) * 2.0 - 1.0;
-#endif
    vec3 viewPos = projectAndDivide(gbufferProjectionInverse, ndcPos); // position in view space
    vec3 feetPlayerPos = (gbufferModelViewInverse * vec4(viewPos, 1.0)).xyz; // position relative to the feet of the player
    vec3 shadowViewPos = (shadowModelView * vec4(feetPlayerPos, 1.0)).xyz;

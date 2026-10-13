@@ -26,19 +26,11 @@ void main() {
   color = texture(colortex0, texcoord);
 
   float depth = texture(depthtex0, texcoord).r;
-#if MC_VERSION >= 260200
-  if (depth <= 0.00001) {
-#else
   if (depth >= 0.99999) {
-#endif
     return;
   }
 
-#if MC_VERSION >= 260200
-  vec3 ndcPos = vec3(texcoord.xy * 2.0 - 1.0, depth);
-#else
   vec3 ndcPos = vec3(texcoord.xy, depth) * 2.0 - 1.0;
-#endif
   vec3 viewPos = projectAndDivide(gbufferProjectionInverse, ndcPos);
 
   float dist = length(viewPos) / far;
