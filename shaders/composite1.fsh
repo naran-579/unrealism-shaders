@@ -13,6 +13,12 @@ in vec2 texcoord;
 const float FOG_NEAR = 0.05;
 const float FOG_FAR = 0.9;
 
+#if MC_VERSION >= 260200
+const float skyDepth = 0.0;
+#else
+const float skyDepth = 1.0;
+#endif
+
 vec3 projectAndDivide(mat4 projectionMatrix, vec3 position){
   vec4 homPos = projectionMatrix * vec4(position, 1.0);
   return homPos.xyz / homPos.w;
@@ -25,11 +31,15 @@ void main() {
   color = texture(colortex0, texcoord);
 
   float depth = texture(depthtex0, texcoord).r;
-  if (depth == 1.0){
+  if (depth == skyDepth){
     return;
   }
 
+#if MC_VERSION >= 260200
+  vec3 ndcPos = vec3(texcoord.xy * 2.0 - 1.0, depth);
+#else
   vec3 ndcPos = vec3(texcoord.xy, depth) * 2.0 - 1.0;
+#endif
   vec3 viewPos = projectAndDivide(gbufferProjectionInverse, ndcPos);
 
   float dist = length(viewPos) / far;
