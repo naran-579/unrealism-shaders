@@ -10,7 +10,8 @@ uniform float far;
 
 in vec2 texcoord;
 
-const float FOG_DENSITY = 5.0;
+const float FOG_NEAR = 0.05;
+const float FOG_FAR = 0.9;
 
 vec3 projectAndDivide(mat4 projectionMatrix, vec3 position){
   vec4 homPos = projectionMatrix * vec4(position, 1.0);
@@ -32,7 +33,7 @@ void main() {
   vec3 viewPos = projectAndDivide(gbufferProjectionInverse, ndcPos);
 
   float dist = length(viewPos) / far;
-  float fogFactor = exp(-FOG_DENSITY * (1.0 - dist));
+  float fogFactor = smoothstep(FOG_NEAR, FOG_FAR, dist);
 
   color.rgb = mix(color.rgb, pow(fogColor, vec3(2.2)), clamp(fogFactor, 0.0, 1.0));
 }
