@@ -16,7 +16,7 @@ layout(location = 0) out vec4 color;
 void main() {
 	color = texture(gtexture, texcoord) * glcolor;
 	color.rgb = mix(color.rgb, entityColor.rgb, entityColor.a);
-	color *= texture(lightmap, lmcoord);
+	color.rgb *= texture(lightmap, lmcoord).rgb;
 	if (color.a < alphaTestRef) {
 		discard;
 	}
