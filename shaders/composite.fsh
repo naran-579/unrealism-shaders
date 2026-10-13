@@ -24,6 +24,7 @@ uniform sampler2D shadowcolor0;
  */
 
 uniform vec3 shadowLightPosition;
+uniform int isEyeInWater;
 uniform mat4 gbufferModelViewInverse;
 uniform mat4 gbufferProjectionInverse;
 uniform mat4 shadowModelView;
@@ -77,7 +78,7 @@ vec3 getShadow(vec3 shadowScreenPos){
 
 
 void main() {
-	vec2 lightmap = texture(colortex1, texcoord).xy;
+	vec3 lightmap = texture(colortex1, texcoord).xyz;
 	vec3 encodedNormal = texture(colortex2, texcoord).rgb;
     vec3 normal = normalize((encodedNormal - 0.5) * 2.0);
 
@@ -104,12 +105,19 @@ void main() {
 
 
    vec3 shadow = getShadow(shadowScreenPos);
+   if (isEyeInWater == 1) {
+     shadow = mix(shadow, vec3(1.0), 0.85);
+   }
 
    vec3 blocklight = lightmap.x * blocklightColor;
    vec3 skylight = lightmap.y * skylightColor;
    vec3 ambient = ambientColor;
    vec3 sunlight = sunlightColor * clamp(dot(worldLightVector, normal), 0.0, 1.0) * shadow;
 
-   color.rgb *= blocklight + skylight + ambient + sunlight;
+   vec3 lighting = blocklight + skylight + ambient + sunlight;
+   if (lightmap.z > 0.5) {
+     lighting = max(lighting, vec3(0.25));
+   }
+   color.rgb *= lighting;
 
 }
