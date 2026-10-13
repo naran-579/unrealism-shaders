@@ -27,7 +27,7 @@ void main() {
 	float edge = smoothstep(0.035, 0.14, length(vec2(gx, gy)) * 0.25);
 
 	color = texture(colortex0, texcoord);
-	color.rgb *= mix(1.0, 0.025, edge);
+	color.rgb = mix(color.rgb, color.rgb * 0.3, edge);
 	float gray = luminance(color.rgb);
 	color.rgb = mix(vec3(gray), color.rgb, 1.25);
 	color.rgb = pow(color.rgb, vec3(1.0 / 2.2));
