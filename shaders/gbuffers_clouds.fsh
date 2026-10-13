@@ -12,6 +12,9 @@ layout(location = 0) out vec4 color;
 
 void main() {
 	color = texture(gtexture, texcoord) * glcolor;
+	float alphaGradient = length(vec2(dFdx(color.a), dFdy(color.a)));
+	float cloudOutline = smoothstep(0.08, 0.28, alphaGradient);
+	color.rgb = mix(color.rgb, vec3(1.0), cloudOutline * 0.18);
 	if (color.a < alphaTestRef) {
 		discard;
 	}

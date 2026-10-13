@@ -33,7 +33,10 @@ void main() {
   vec3 viewPos = projectAndDivide(gbufferProjectionInverse, ndcPos);
 
   float dist = length(viewPos) / far;
-  float fogFactor = smoothstep(FOG_NEAR, FOG_FAR, dist);
+  float viewHeight = viewPos.y / max(length(viewPos), 1.0);
+  float groundSettling = 1.0 - smoothstep(-0.1, 0.35, viewHeight);
+  float settledDist = dist * (1.0 + groundSettling * 0.25);
+  float fogFactor = smoothstep(FOG_NEAR, FOG_FAR, settledDist);
 
   color.rgb = mix(color.rgb, pow(fogColor, vec3(2.2)), clamp(fogFactor, 0.0, 1.0));
 }
