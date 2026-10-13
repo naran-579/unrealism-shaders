@@ -24,7 +24,6 @@ uniform sampler2D shadowcolor0;
  */
 
 uniform vec3 shadowLightPosition;
-uniform int isEyeInWater;
 uniform mat4 gbufferModelViewInverse;
 uniform mat4 gbufferProjectionInverse;
 uniform mat4 shadowModelView;
@@ -105,8 +104,8 @@ void main() {
 
 
    vec3 shadow = getShadow(shadowScreenPos);
-   if (isEyeInWater == 1) {
-     shadow = mix(shadow, vec3(1.0), 0.85);
+   if (lightmap.z > 1.5) {
+     shadow = mix(shadow, vec3(1.0), 0.75);
    }
 
    vec3 blocklight = lightmap.x * blocklightColor;
