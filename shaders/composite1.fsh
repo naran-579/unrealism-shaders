@@ -10,14 +10,9 @@ uniform float far;
 
 in vec2 texcoord;
 
-const float FOG_START_BLOCKS = 25.0 * 16.0;
-const float FOG_MIN_START_FRACTION = 0.88;
-
-#if MC_VERSION >= 260200
-const float skyDepth = 0.0;
-#else
-const float skyDepth = 1.0;
-#endif
+const float FOG_START_BLOCKS = 30.0 * 16.0;
+const float FOG_MIN_START_FRACTION = 0.97;
+const float FOG_EXPONENTIAL_STRENGTH = 6.0;
 
 vec3 projectAndDivide(mat4 projectionMatrix, vec3 position){
   vec4 homPos = projectionMatrix * vec4(position, 1.0);
@@ -31,7 +26,11 @@ void main() {
   color = texture(colortex0, texcoord);
 
   float depth = texture(depthtex0, texcoord).r;
-  if (depth == skyDepth){
+#if MC_VERSION >= 260200
+  if (depth <= 0.00001) {
+#else
+  if (depth >= 0.99999) {
+#endif
     return;
   }
 
@@ -47,7 +46,9 @@ void main() {
   float groundSettling = 1.0 - smoothstep(-0.1, 0.35, viewHeight);
   float settledDist = dist * (1.0 + groundSettling * 0.25);
   float fogStart = min(FOG_START_BLOCKS / far, FOG_MIN_START_FRACTION);
-  float fogFactor = smoothstep(fogStart, 1.0, settledDist);
+  float fogProgress = clamp((settledDist - fogStart) / max(1.0 - fogStart, 0.0001), 0.0, 1.0);
+  float fogFactor = (exp(FOG_EXPONENTIAL_STRENGTH * fogProgress) - 1.0)
+      / (exp(FOG_EXPONENTIAL_STRENGTH) - 1.0);
 
   color.rgb = mix(color.rgb, pow(fogColor, vec3(2.2)), clamp(fogFactor, 0.0, 1.0));
 }
