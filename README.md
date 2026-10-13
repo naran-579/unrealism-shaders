@@ -20,3 +20,10 @@ I was able to submit it to a different hack club program, but in essence this sh
 - Brighter caves than most shader packs (this is one of the things I hate the most about most shader packs. I don't want to choose between my game being beautiful and being able to see the ores)
 - Water ripples
 - Slightly upped vibrance
+
+## credits
+- ascipixi for the template
+- Codex for the help
+- Whoever wrote the Hack club Lumen guide (tysm)
+- Complementary Reimagined for the inspiration
+- You, for reading this readme :D
