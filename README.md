@@ -12,3 +12,6 @@ After you're done developing your shader, we recommend publishing it to [Modrint
 ## Notes
 
 The Gradle files are completely optional, and exist to help you debug your shader. You can delete them if you want. This template is based on the [official ShaderLABS template](https://github.com/shaderLABS/Base-330).
+
+
+fix
