@@ -34,7 +34,7 @@ uniform mat4 shadowProjection;
 
 const vec3 blocklightColor = vec3(1.0, 0.5, 0.08);
 const vec3 skylightColor = vec3(0.05, 0.15, 0.3);
-const vec3 sunlightColor = vec3(1.25, 0.95, 0.3);
+const vec3 sunlightColor = vec3(1.4, 0.92, 0.24);
 const vec3 ambientColor = vec3(0.1);
 
 in vec2 texcoord;
@@ -111,7 +111,8 @@ void main() {
    vec3 blocklight = lightmap.x * blocklightColor;
    vec3 skylight = lightmap.y * skylightColor;
    vec3 ambient = ambientColor;
-   vec3 sunlight = sunlightColor * clamp(dot(worldLightVector, normal), 0.0, 1.0) * shadow;
+   float verticalFaceBoost = 1.0 + 0.4 * (1.0 - abs(normal.y));
+   vec3 sunlight = sunlightColor * clamp(dot(worldLightVector, normal), 0.0, 1.0) * shadow * verticalFaceBoost;
 
    vec3 lighting = blocklight + skylight + ambient + sunlight;
    if (lightmap.z > 0.5) {

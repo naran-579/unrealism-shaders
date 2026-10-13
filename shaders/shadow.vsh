@@ -19,7 +19,7 @@ void main() {
 	if (mc_Entity.x == 100.0) {
 		vec3 worldPosition = (shadowModelViewInverse * viewPosition).xyz + cameraPosition;
 		float phase = frameTimeCounter * 1.4 + dot(worldPosition.xz, vec2(0.11, 0.13));
-		vec3 windOffset = vec3(sin(phase), 0.0, cos(phase * 0.83)) * 0.025;
+		vec3 windOffset = vec3(sin(phase), 0.0, cos(phase * 0.83)) * 0.06;
 		viewPosition.xyz += mat3(shadowModelView) * windOffset;
 	}
 	gl_Position = gl_ProjectionMatrix * viewPosition;
