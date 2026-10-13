@@ -1,3 +1,15 @@
+plugins {
+    id 'net.fabricmc.fabric-loom' version "${loom_version}"
+    id 'maven-publish'
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${minecraft_version}"
+    // Keep your other dependencies here; omit the old Yarn mappings line.
+    modImplementation "net.fabricmc:fabric-loader:${loader_version}"
+}
+
+
 import java.nio.file.Files
 import java.nio.file.LinkOption
 
@@ -9,13 +21,9 @@ buildscript {
         }
         mavenCentral()
     }
-    dependencies {
-        classpath "net.fabricmc:fabric-loom:${loom_version}"
-    }
+   
 }
 
-apply plugin: 'fabric-loom'
-apply plugin: 'maven-publish'
 
 version = project.mod_version
 group = project.maven_group
