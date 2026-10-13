@@ -1,5 +1,5 @@
 #version 330 compatibility
-
+#include "/lib/shadowDistort.glsl"
 out vec2 texcoord;
 
 void main() {
