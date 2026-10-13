@@ -19,7 +19,7 @@ void main() {
 
 
 
-	vec2 texel = 1.0 / vec2(textureSize(colortex0, 0));
+	vec2 texel = 1.5 / vec2(textureSize(colortex0, 0));
 	float tl = luminance(texture(colortex0, texcoord + texel * vec2(-1.0,  1.0)).rgb);
 	float tc = luminance(texture(colortex0, texcoord + texel * vec2( 0.0,  1.0)).rgb);
 	float tr = luminance(texture(colortex0, texcoord + texel * vec2( 1.0,  1.0)).rgb);
@@ -31,9 +31,9 @@ void main() {
 
 	float gx = -tl + tr - 2.0 * ml + 2.0 * mr - bl + br;
 	float gy = -tl - 2.0 * tc - tr + bl + 2.0 * bc + br;
-	float edge = smoothstep(0.12, 0.30, length(vec2(gx, gy)) * 0.25);
+	float edge = smoothstep(0.035, 0.14, length(vec2(gx, gy)) * 0.25);
 
 	color = texture(colortex0, texcoord);
-	color.rgb *= mix(1.0, 0.12, edge);
+	color.rgb *= mix(1.0, 0.025, edge);
 	color.rgb = pow(color.rgb, vec3(1.0 / 2.2));
 }
