@@ -34,7 +34,7 @@ uniform mat4 shadowProjection;
 
 const vec3 blocklightColor = vec3(1.0, 0.5, 0.08);
 const vec3 skylightColor = vec3(0.05, 0.15, 0.3);
-const vec3 sunlightColor = vec3(1.0);
+const vec3 sunlightColor = vec3(1.0, 0.78, 0.28);
 const vec3 ambientColor = vec3(0.1);
 
 in vec2 texcoord;
